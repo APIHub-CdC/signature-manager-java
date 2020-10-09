@@ -96,6 +96,9 @@ public class SignerInterceptor implements Interceptor {
 			content = response.body().bytes();
 			bodyAsStream = ResponseBody.create(contentType, content);
 			payload = bodyAsStream.string();
+			if(response != null && response.code() != 200) {
+				setErrores(payload);
+			}			
 			logger.debug("Payload received: "+ (String) payload.replaceAll("(\n|\r)", ""));
 			List<String> values = response.headers().values("x-signature");
 			signature = values.get(0);
@@ -121,13 +124,12 @@ public class SignerInterceptor implements Interceptor {
 			outResponse = buildResponseBody(500, "Signature not received.", response, contentType, null);
 		} else {
 			outResponse = buildResponseBody(response.code(), null, response, contentType, content);
-			setErrores(payload);
 		}
 		return outResponse;
 	}
 	
 	private void setErrores(String payload) {
-		logger.debug("Generando error");
+		logger.debug("Mapped response error from API.");
 		Gson gson = new Gson();
 		this.errores = gson.fromJson(payload, Errores.class);	
 	}
@@ -137,7 +139,7 @@ public class SignerInterceptor implements Interceptor {
 	}
 
 	private String generateError(String code, String message) {
-		logger.debug("Mapped response error.");
+		logger.debug("Mapped response error from client.");
 		Errores errs = new Errores();
 		Error err = new Error();
 		err.setCodigo(code);
