@@ -23,9 +23,10 @@ public class ApiTest {
 	private String keystorePassword = "your_super_secure_keystore_password";
 	private String keyAlias = "your_key_alias";
 	private String keyPassword = "your_super_secure_password";
-	
 	private String url = "the_url";
 	private String xApiKey = "X_Api_Key";
+	
+	private SignerInterceptor interceptor;
 
 	private Logger logger = LoggerFactory.getLogger(ApiTest.class.getName());
 	private final SecurityApi api = new SecurityApi();
@@ -33,10 +34,11 @@ public class ApiTest {
 
 	@Before()
 	public void setUp() {
+		this.interceptor = new SignerInterceptor(keystoreFile, cdcCertFile, keystorePassword, keyAlias, keyPassword);
 		this.apiClient = api.getApiClient();
 		this.apiClient.setBasePath(url);
 		OkHttpClient okHttpClient = new OkHttpClient().newBuilder().readTimeout(30, TimeUnit.SECONDS)
-				.addInterceptor(new SignerInterceptor(keystoreFile, cdcCertFile, keystorePassword, keyAlias, keyPassword)).build();
+				.addInterceptor(interceptor).build();
 		apiClient.setHttpClient(okHttpClient);
 	}
 
@@ -59,9 +61,14 @@ public class ApiTest {
 			}
 
 		} catch (ApiException e) {
+			
 			if (!estatusNoContent.equals(e.getCode())) {
-				logger.info(e.getResponseBody());
+				logger.info("Response received from API: "+interceptor.getErrores().toString());
+				logger.info("Response processed by client:"+ e.getResponseBody());
+			} else {
+				logger.info("The response was a status 204 (NO CONTENT)");
 			}
+			
 			Assert.assertTrue(estatusOK.equals(e.getCode()));
 		}
 	}
