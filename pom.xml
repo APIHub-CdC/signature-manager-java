@@ -20,9 +20,17 @@
 			<name>API Hub</name>
 			<email>api@circulodecredito.com.mx</email>
 			<organization>com.cdc.apihub</organization>
-			<organizationUrl>https://github.com/APIHub-CdC</organizationUrl>
+			<organizationUrl>https://github.com/APIHub-CdC/signature-manager-java</organizationUrl>
 		</developer>
 	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com/APIHub-CdC/signature-manager-java.git</connection>
+		<developerConnection>scm:git:https://github.com/APIHub-CdC/signature-manager-java.git
+        </developerConnection>
+		<url>https://github.com/APIHub-CdC/signature-manager-java</url>
+		<tag>signature-manager-java</tag>
+	</scm>
 
 	<licenses>
 		<license>
