@@ -127,7 +127,7 @@ public class Signer {
 	private PrivateKey readPrivateKeyFromKeystore() {
 		PrivateKey ecKey = null;
 		try {
-			logger.debug("keystore_file:" + keystoreFile);
+			logger.debug("keystore_file: " + keystoreFile);
 			File file = new File (keystoreFile);
 			FileInputStream inputStream = new FileInputStream(file);
 			KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
@@ -155,7 +155,7 @@ public class Signer {
 	
 	public PublicKey readPublicCDC() {
 		PublicKey pubKey = null;
-		logger.debug("keystore_file:" + cdcCertFile);
+		logger.debug("cdc_cert_file: " + cdcCertFile);
 		File file = new File(cdcCertFile);
 		FileInputStream certificate;
 		try {

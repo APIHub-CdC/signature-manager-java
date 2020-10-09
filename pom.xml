@@ -6,7 +6,7 @@
 	<artifactId>signature-manager-java</artifactId>
 	<packaging>jar</packaging>
 	<name>signature-manager-java</name>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 
 	<distributionManagement>
 		<repository>
